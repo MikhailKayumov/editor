@@ -1,24 +1,16 @@
-package com.mk.editor.gui.sidebar;
+package com.mk.editor.gui.viewport;
 
 import com.mk.editor.gui.MainRegion;
 import com.mk.editor.gui.utils.AppColor;
-import com.mk.editor.gui.utils.BorderPosition;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
-public class Sidebar extends MainRegion {
-  public Sidebar() {
-    super(
-      BorderPosition.LEFT,
-      AppColor.BGPrimary,
-      1,
-      0,
-      1,
-      2
-    );
+public class Viewport extends MainRegion {
+  public Viewport() {
+    super(AppColor.BGScene, 0, 1);
 
-    Label content = new Label("Sidebar");
+    Label content = new Label("Viewport");
     content.setPadding(new Insets(5));
     content.setTextFill(AppColor.FontPrimary);
     content.setFont(new Font("Roboto", 20));

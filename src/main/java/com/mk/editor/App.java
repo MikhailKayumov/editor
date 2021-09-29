@@ -4,8 +4,6 @@ import com.mk.editor.gui.Main;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 
 public class App extends Application {
   @Override

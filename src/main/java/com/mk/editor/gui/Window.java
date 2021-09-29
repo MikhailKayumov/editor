@@ -19,10 +19,9 @@ final public class Window {
     this.scene = scene;
     return this;
   }
-  public Window show() {
+  public void show() {
     this.stage.setScene(this.scene);
     this.stage.show();
-    return this;
   }
 
   private void init() {
