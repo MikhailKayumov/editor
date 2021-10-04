@@ -26,4 +26,8 @@ public class Statusbar extends MainRegion {
 
     this.addContent(content);
   }
+
+  public void render() {
+    this.content.forEach((node) -> this.root.getChildren().add(node));
+  }
 }

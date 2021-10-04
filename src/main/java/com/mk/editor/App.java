@@ -9,7 +9,7 @@ public class App extends Application {
   @Override
   public void start(Stage primaryStage) {
     try {
-      new Main(primaryStage).show();
+      new Main(primaryStage).render();
     } catch (Exception e) {
       System.out.println("!!! ============= Error ============= !!!");
       System.out.println(e.getMessage());

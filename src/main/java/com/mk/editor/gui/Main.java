@@ -1,5 +1,7 @@
 package com.mk.editor.gui;
 
+import com.mk.editor.entities.Camera3D;
+import com.mk.editor.entities.World3D;
 import com.mk.editor.gui.sidebar.Sidebar;
 import com.mk.editor.gui.statusbar.Statusbar;
 import com.mk.editor.gui.toolbar.Toolbar;
@@ -11,81 +13,70 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-public class Main {
+import java.util.ArrayList;
 
-  private final Window window;
-  private final Scene scene;
-  private final GridPane root;
+// FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+// Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+// класс для отрисовки пользовательского интерфейса
+public class Main {
+  private final Window window; // окно приложения
+  private final Scene scene; // основная сцена
+  private final GridPane root; // сетка для размещения
+
+  // основные компоненты редактора
+  private ArrayList<MainRegion> nodes = new ArrayList<>();
+
+  private World3D world; // контейнер для 3d объектов
+  private Camera3D camera; // камера приложения
 
   public Main(Stage stage) {
     this.window = new Window(stage);
-    this.root = this.initRoot();
+    this.root = new GridPane();
+    this.scene = new Scene(this.root, 1240, 720, true, SceneAntialiasing.BALANCED);
 
-    // FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+    this.world = new World3D();
+    this.camera = new Camera3D();
 
-    // Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-
-    // stage.setTitle("Hello!");
-    // stage.setScene(scene);
-    // stage.show();
-    // Camera camera = new PerspectiveCamera();
-    // scene.setCamera(camera);
-    // scene.setOnScroll(event -> {
-    // int direction = event.getDeltaY() > 0 ? 1 : -1;
-    // camera.translateZProperty().set(camera.getTranslateZ() + 100 * direction);
-    // });
-    this.scene = new Scene(
-      this.root,
-      1240,
-      720,
-      true,
-      SceneAntialiasing.BALANCED
-    );
-  }
-  public void show() {
-    this.fillRoot();
-    this.window.setScene(this.scene).show();
+    this.nodes.add(new Viewport(world, camera));
+    this.nodes.add(new Toolbar());
+    this.nodes.add(new Sidebar());
+    this.nodes.add(new Statusbar());
   }
 
-  private GridPane initRoot() {
-    GridPane pane = new GridPane();
+  public void render() {
+    this.window.show(this.scene);
+    this.layout();
+    this.fill();
+  }
 
-    // columns
+  private void layout() {
+    // создания колонн и их размеров
     ColumnConstraints column1 = new ColumnConstraints(400, 300, Double.MAX_VALUE, Priority.ALWAYS, HPos.RIGHT, true);
-    pane.getColumnConstraints().add(column1);
-    ColumnConstraints column2 = new ColumnConstraints(100, 200, 200);
+    this.root.getColumnConstraints().add(column1);
+    ColumnConstraints column2 = new ColumnConstraints(302);
     column2.setHalignment(HPos.RIGHT);
-    pane.getColumnConstraints().add(column2);
+    this.root.getColumnConstraints().add(column2);
 
-    // rows
-    RowConstraints row1 = new RowConstraints(80);
+    // создания строк и их размеров
+    RowConstraints row1 = new RowConstraints(42);
     row1.setValignment(VPos.TOP);
-    pane.getRowConstraints().add(row1);
+    this.root.getRowConstraints().add(row1);
     RowConstraints row2 = new RowConstraints(400, 400, Double.MAX_VALUE, Priority.ALWAYS, VPos.TOP, true);
-    pane.getRowConstraints().add(row2);
-    RowConstraints row3 = new RowConstraints(20);
+    this.root.getRowConstraints().add(row2);
+    RowConstraints row3 = new RowConstraints(22);
     row3.setValignment(VPos.TOP);
-    pane.getRowConstraints().add(row3);
-
-    return pane;
+    this.root.getRowConstraints().add(row3);
   }
-  private void fillRoot() {
-    MainRegion[] nodes = {
-      new Toolbar(),
-      new Sidebar(),
-      new Statusbar(),
-      new Viewport()
-    };
-
-    for (MainRegion node: nodes) {
+  private void fill() {
+    for (MainRegion node: this.nodes) {
       this.root.add(
-        node.getContent(),
+        node.getRoot(),
         node.getColumnId(),
         node.getRowId(),
         node.getColspan(),
         node.getRowspan()
       );
+      node.render();
     }
-
   }
 }

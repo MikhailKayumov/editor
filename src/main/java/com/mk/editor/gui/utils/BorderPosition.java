@@ -4,6 +4,6 @@ public enum BorderPosition {
   ALL,
   TOP,
   LEFT,
-  RIGTH,
+  RIGHT,
   BOTTOM;
 }

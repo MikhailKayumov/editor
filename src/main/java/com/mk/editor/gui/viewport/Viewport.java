@@ -1,21 +1,24 @@
 package com.mk.editor.gui.viewport;
 
+import com.mk.editor.entities.Camera3D;
+import com.mk.editor.entities.Scene3D;
+import com.mk.editor.entities.World3D;
 import com.mk.editor.gui.MainRegion;
 import com.mk.editor.gui.utils.AppColor;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.text.Font;
+import javafx.scene.Group;
 
 public class Viewport extends MainRegion {
-  public Viewport() {
-    super(AppColor.BGScene, 0, 1);
+  private final Scene3D scene;
 
-    Label content = new Label("Viewport");
-    content.setPadding(new Insets(5));
-    content.setTextFill(AppColor.FontPrimary);
-    content.setFont(new Font("Roboto", 20));
-    content.setLineSpacing(20);
+  public Viewport(World3D world, Camera3D camera) {
+    super(AppColor.BGTransparent, 0, 1);
+    this.scene = new Scene3D(new Group(), world, camera);
+    this.scene.widthProperty().bind(this.root.widthProperty());
+    this.scene.heightProperty().bind(this.root.heightProperty());
+    this.scene.setFill(AppColor.BGScene);
+  }
 
-    this.addContent(content);
+  public void render() {
+    this.root.getChildren().add(this.scene);
   }
 }

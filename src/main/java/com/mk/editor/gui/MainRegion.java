@@ -10,13 +10,16 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 
+import java.util.ArrayList;
+
 public abstract class MainRegion {
   private int columnId;
   private int rowId;
   private int colspan;
   private int rowspan;
 
-  private final Pane pane = new Pane();
+  protected ArrayList<Node> content = new ArrayList<>();
+  protected final Pane root = new Pane();
 
   public MainRegion(
     BorderPosition pos,
@@ -61,14 +64,16 @@ public abstract class MainRegion {
   public int getRowspan() {
     return rowspan;
   }
-
-  public void addContent(Node... nodes) {
-    for (Node node: nodes) {
-      this.pane.getChildren().add(node);
-    }
+  public Pane getRoot() {
+    return this.root;
   }
-  public Pane getContent() {
-    return this.pane;
+
+  abstract public void render();
+
+  protected void addContent(Node... nodes) {
+    for (Node node: nodes) {
+      this.content.add(node);
+    }
   }
 
   private MainRegion init(int columnId, int rowId, int colspan, int rowspan) {
@@ -85,7 +90,7 @@ public abstract class MainRegion {
       case TOP:
         bWidths = new BorderWidths(bWidth, 0, 0, 0);
         break;
-      case RIGTH:
+      case RIGHT:
         bWidths = new BorderWidths(0, bWidth, 0, 0);
         break;
       case LEFT:
@@ -105,11 +110,11 @@ public abstract class MainRegion {
       )
     );
 
-    this.pane.setBorder(border);
+    this.root.setBorder(border);
     return this;
   }
   private MainRegion setBackground(Color color) {
-    this.pane.setBackground(new Background(new BackgroundFill(
+    this.root.setBackground(new Background(new BackgroundFill(
       color,
       new CornerRadii(0),
       new Insets(0)
