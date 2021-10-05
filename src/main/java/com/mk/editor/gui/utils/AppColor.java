@@ -15,7 +15,11 @@ public final class AppColor {
   public static Color FontPrimary = Color.rgb(250, 250, 250);
 
   public static Color BorderColor = Color.rgb(144, 144, 144, 1);
-  public static Color GridColor = Color.rgb(104, 104, 104, 0.5);
+
+  public static Color XAxisColor = Color.rgb(244, 50, 80);
+  public static Color YAxisColor = Color.rgb(111, 164, 19);
+  public static Color ZAxisColor = Color.rgb(43, 129, 222);
+  public static Color GridColor = Color.rgb(49, 49, 49, 1);
 
   public static String getCSS(Color color) {
     int red = (int)(color.getRed() * 255);

@@ -12,6 +12,7 @@ public class Viewport extends MainRegion {
 
   public Viewport(World3D world, Camera3D camera) {
     super(AppColor.BGTransparent, 0, 1);
+
     this.scene = new Scene3D(new Group(), world, camera);
     this.scene.widthProperty().bind(this.root.widthProperty());
     this.scene.heightProperty().bind(this.root.heightProperty());
@@ -20,5 +21,6 @@ public class Viewport extends MainRegion {
 
   public void render() {
     this.root.getChildren().add(this.scene);
+    this.scene.render();
   }
 }

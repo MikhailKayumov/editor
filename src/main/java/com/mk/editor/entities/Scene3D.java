@@ -1,19 +1,18 @@
 package com.mk.editor.entities;
 
-import com.mk.editor.gui.utils.AppColor;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.PickResult;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
 
-import java.util.ArrayList;
-
 public class Scene3D extends SubScene {
   private World3D world;
   private Camera3D camera;
-  private Object3D axisGroup = new Object3D();
 
   double mousePosX, mousePosY, mouseOldX, mouseOldY;
   private static final double CONTROL_MULTIPLIER = 0.1;
@@ -26,74 +25,40 @@ public class Scene3D extends SubScene {
     this.camera = camera;
     this.world.addChild(camera);
 
-    root.getChildren().add(world);
-    root.setDepthTest(DepthTest.ENABLE);
+    this.setDepthTest(DepthTest.ENABLE);
+    this.setCamera(this.camera.getCamera());
 
     this.buildBodySystem();
-    this.buildAxes();
     this.handleMouse();
+  }
 
-    this.setCamera(this.camera.getCamera());
+  public void render() {
+    ((Group)this.getRoot()).getChildren().add(this.world);
   }
 
   private void buildBodySystem() {
-    PhongMaterial whiteMaterial = new PhongMaterial();
-    whiteMaterial.setDiffuseColor(Color.WHITE);
-    whiteMaterial.setSpecularColor(Color.WHITE);
+    PhongMaterial whiteMaterial = new PhongMaterial(Color.WHITE);
+    // whiteMaterial.setSpecularColor(Color.WHITE);
 
-    Box box = new Box(50, 50, 50);
+    Box box = new Box(54, 54, 54);
     box.setMaterial(whiteMaterial);
-    Rotate rBox = new Rotate(0, 0, 0, 0, new Point3D(0, 1, 0));
+    Rotate rBox = new Rotate(0, 0, 0, 0, new Point3D(0, 0, 1));
     box.getTransforms().add(rBox);
-    rBox.setAngle(45);
+    box.setTranslateZ(34);
+    box.setTranslateX(40);
+    box.setTranslateY(-60);
+    rBox.setAngle(30);
 
-    this.world.addChild(box);
-  }
-  private void buildAxes() {
-    final PhongMaterial redMaterial = new PhongMaterial();
-    redMaterial.setDiffuseColor(Color.RED);
+    Box box2 = new Box(54, 54, 54);
+    box2.setMaterial(whiteMaterial);
+    Rotate rBox2 = new Rotate(0, 0, 0, 0, new Point3D(0, 0, 1));
+    box2.getTransforms().add(rBox);
+    box2.setTranslateZ(150);
+    box2.setTranslateX(40);
+    box2.setTranslateY(-60);
+    rBox2.setAngle(30);
 
-    final PhongMaterial greenMaterial = new PhongMaterial();
-    greenMaterial.setDiffuseColor(Color.GREEN);
-
-    final PhongMaterial blueMaterial = new PhongMaterial();
-    blueMaterial.setDiffuseColor(Color.BLUE);
-
-    final Cylinder xAxis = new Cylinder(1, 100);
-    xAxis.setMaterial(redMaterial);
-    xAxis.setRotate(-90);
-    xAxis.setTranslateX(50);
-
-    final Cylinder yAxis = new Cylinder(1, 100);
-    yAxis.setMaterial(greenMaterial);
-    yAxis.setTranslateY(50);
-
-    final Cylinder zAxis = new Cylinder(1, 100);
-    zAxis.setMaterial(blueMaterial);
-    zAxis.setTranslateZ(50);
-    zAxis.setRotationAxis(new Point3D(1, 0, 0));
-    zAxis.setRotate(-90);
-
-    ArrayList<Line> grid = new ArrayList<>();
-    for (int i = -1000; i <= 1000; i += 25) {
-      Line l1 = new Line(i, -1000, i, 1000);
-      l1.setSmooth(false);
-      l1.setStroke(i == 0 ? Color.GREEN : AppColor.GridColor);
-      l1.setStrokeWidth(0.5);
-
-      Line l2 = new Line(-1000, i, 1000, i);
-      l2.setSmooth(false);
-      l2.setStroke(i == 0 ? Color.RED : AppColor.GridColor);
-      l2.setStrokeWidth(0.5);
-
-      grid.add(l1);
-      grid.add(l2);
-    }
-
-    axisGroup.getChildren().addAll(grid);
-    axisGroup.getChildren().addAll(xAxis, yAxis, zAxis);
-
-    world.getChildren().addAll(axisGroup);
+    this.world.addMesh(box, box2);
   }
 
   private void handleMouse() {
@@ -103,11 +68,15 @@ public class Scene3D extends SubScene {
       else if (event.isAltDown()) difference *= SHIFT_MULTIPLIER;// 10.0
       this.camera.zoom(difference);
     });
+
     this.setOnMousePressed(event -> {
       mousePosX = mouseOldX = event.getSceneX();
       mousePosY = mouseOldY = event.getSceneY();
+      this.requestFocus();
     });
     this.setOnMouseDragged(event -> {
+      if (!event.isMiddleButtonDown()) return;
+
       mouseOldX = mousePosX;
       mouseOldY = mousePosY;
       mousePosX = event.getSceneX();
@@ -123,12 +92,50 @@ public class Scene3D extends SubScene {
       double azimuth = posX * speed;
       double altitude = posY * speed;
 
-      if (event.isPrimaryButtonDown()) {
+      if (event.isShiftDown()) {
         this.camera.translate(azimuth, altitude);
-      }
-      else if (event.isMiddleButtonDown()) {
+      } else {
         this.camera.rotate(azimuth, -altitude);
       }
     });
+    this.setOnMouseClicked(event -> {
+      if (event.getButton() == MouseButton.PRIMARY) {
+        Node res = event.getPickResult().getIntersectedNode();
+        if (res != null && res.getParent() == this.world.getMeshes()) {
+          this.world.setPickedNode(res);
+        } else {
+          this.world.delPickedNode();
+        }
+      }
+      // event.consume();
+    });
+
+    this.setOnKeyPressed(event -> {
+      System.out.println("Focused is set on viewport");
+      System.out.println("Event code: " + event.getCode());
+      System.out.println("Event char: " + event.getCharacter());
+      System.out.println("Event text: " + event.getText());
+
+      if (event.getCode() == KeyCode.X) {
+        if (event.isAltDown()) this.camera.resetZoom();
+        else if (event.isControlDown()) this.camera.resetRotate();
+        else if (event.isShiftDown()) this.camera.resetTranslate();
+        else this.camera.reset();
+      }
+    });
+  }
+
+  void setState(PickResult result) {
+    if (result.getIntersectedNode() == null) {
+      System.out.println("Scene");
+      System.out.println(result.getIntersectedNode());
+      System.out.println(result.getIntersectedPoint());
+      System.out.println(String.format("%.1f", result.getIntersectedDistance()));
+    } else {
+      System.out.println(result.getIntersectedNode());
+      System.out.println(result.getIntersectedPoint());
+      System.out.println(String.format("%.1f", result.getIntersectedDistance()));
+    }
+    System.out.println("========================================");
   }
 }

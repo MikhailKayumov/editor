@@ -9,7 +9,6 @@ import com.mk.editor.gui.viewport.Viewport;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -32,7 +31,7 @@ public class Main {
   public Main(Stage stage) {
     this.window = new Window(stage);
     this.root = new GridPane();
-    this.scene = new Scene(this.root, 1240, 720, true, SceneAntialiasing.BALANCED);
+    this.scene = new Scene(this.root, 1240, 720);
 
     this.world = new World3D();
     this.camera = new Camera3D();
@@ -44,9 +43,10 @@ public class Main {
   }
 
   public void render() {
-    this.window.show(this.scene);
     this.layout();
     this.fill();
+    this.window.show(this.scene);
+    for (MainRegion node: this.nodes) node.render();
   }
 
   private void layout() {
@@ -76,7 +76,6 @@ public class Main {
         node.getColspan(),
         node.getRowspan()
       );
-      node.render();
     }
   }
 }

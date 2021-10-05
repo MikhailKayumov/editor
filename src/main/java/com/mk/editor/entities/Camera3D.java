@@ -1,5 +1,6 @@
 package com.mk.editor.entities;
 
+import com.mk.editor.utils.Axes;
 import javafx.scene.Camera;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Translate;
@@ -18,16 +19,20 @@ public class Camera3D extends Object3D {
 
     this.camera.setNearClip(0.01); // ближняя область отсечения
     this.camera.setFarClip(10000.0); // дальняя область отсечения
-    this.camera.getTransforms().add(ct);
+    this.camera.getTransforms().add(this.ct);
+
+    Axes axes = new Axes(0.5, 15);
+    Axes axes2 = new Axes(0.5, 15);
 
     // добавления камеры в объект поворота по оси X
-    this.altitude.getChildren().add(this.camera);
+    this.altitude.addChildren(this.camera, axes);
     // добавления объект поворота в главную обертку
-    this.getChildren().add(this.altitude);
+    this.addChildren(this.altitude, axes2);
 
     // инициализация (опционально)
     this.init();
   }
+
   /**
    * Возвращает объект камеры
    * @return camera - объект камеры
@@ -35,20 +40,35 @@ public class Camera3D extends Object3D {
   public Camera getCamera() {
     return camera;
   }
+
   /**
    * Смещает камеру относительно мира
    * @param newX - смещение по X относительно мира
    * @param newY - смещение по Y относительно мира
    */
   public void translate(double newX, double newY) {
-    double cos = Math.cos(this.getRz() * Math.PI / 180);
-    double sin = Math.sin(this.getRz() * Math.PI / 180);
+    // перевод углов в радианы
+    double rad = Math.toRadians(this.getRz());
 
+    double cos = Math.cos(rad); // косинус полярного угла
+    double sin = Math.sin(rad); // cинус полярного угла
+
+    // расчет смещения по координатам X и Y
+    // относительно центра мира
     double dx = newX * cos + -newY * sin;
     double dy = newX * sin + newY * cos;
 
-    this.addTx(dx);
+    // смещение
     this.addTy(dy);
+    this.addTx(dx);
+
+    // синус угла высоты
+    double axRad = Math.sin(Math.toRadians(this.altitude.getRx()));
+    // смещение по Z, если синус угла высоты больше 0.90
+    // примерно 25 градусов от оси Z мира
+    if (Math.abs(axRad) > 0.88) {
+      this.addTz(-newY * axRad);
+    }
   }
   /**
    * Устанавливает поворот камеры относительно мира и смещения
@@ -66,12 +86,42 @@ public class Camera3D extends Object3D {
   public void zoom(double z) {
     this.ct.setZ(this.ct.getZ() + z);
   }
+  /**
+   * Сброс камеры в исходное положение
+   */
+  @Override
+  public void reset() {
+    this.resetTranslate();
+    this.resetRotate();
+    this.resetZoom();
+  }
+  /**
+   * Сброс смещения камеры в исходное положение
+   */
+  public void resetTranslate() {
+    this.setTx(0);
+    this.setTy(0);
+    this.setTz(0);
+  }
+  /**
+   * Сброс поворота камеры в исходное положение
+   */
+  public void resetRotate() {
+    this.setRz(0);
+    this.altitude.setRx(-110);
+  }
+  /**
+   * Сброс зума камеры в исходное положение
+   */
+  public void resetZoom() {
+    this.ct.setZ(-500);
+  }
 
   /**
    * Инициализация
    */
   private void init() {
-    this.rotate(-19, -138);
+    this.rotate(-0, -108);
     this.zoom(-500);
   }
 }
