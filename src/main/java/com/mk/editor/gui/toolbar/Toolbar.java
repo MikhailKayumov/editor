@@ -1,8 +1,8 @@
 package com.mk.editor.gui.toolbar;
 
 import com.mk.editor.gui.MainRegion;
-import com.mk.editor.gui.utils.AppColor;
-import com.mk.editor.gui.utils.BorderPosition;
+import com.mk.editor.utils.AppColor;
+import com.mk.editor.utils.BorderPosition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -17,7 +17,7 @@ public class Toolbar extends MainRegion {
   }
 
   public void render() {
-    this.content.forEach((node) -> this.root.getChildren().add(node));
+    this.root.getChildren().add(this.content);
   }
 
   private HBox createShapeButtons() {

@@ -3,7 +3,6 @@ package com.mk.editor.gui;
 import com.mk.editor.entities.Camera3D;
 import com.mk.editor.entities.World3D;
 import com.mk.editor.gui.sidebar.Sidebar;
-import com.mk.editor.gui.statusbar.Statusbar;
 import com.mk.editor.gui.toolbar.Toolbar;
 import com.mk.editor.gui.viewport.Viewport;
 import javafx.geometry.HPos;
@@ -12,10 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-// FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
-// Scene scene = new Scene(fxmlLoader.load(), 800, 600);
 // класс для отрисовки пользовательского интерфейса
 public class Main {
   private final Window window; // окно приложения
@@ -38,11 +36,10 @@ public class Main {
 
     this.nodes.add(new Viewport(world, camera));
     this.nodes.add(new Toolbar());
-    this.nodes.add(new Sidebar());
-    this.nodes.add(new Statusbar());
+    this.nodes.add(new Sidebar(world, camera));
   }
 
-  public void render() {
+  public void render() throws IOException {
     this.layout();
     this.fill();
     this.window.show(this.scene);
@@ -63,9 +60,6 @@ public class Main {
     this.root.getRowConstraints().add(row1);
     RowConstraints row2 = new RowConstraints(400, 400, Double.MAX_VALUE, Priority.ALWAYS, VPos.TOP, true);
     this.root.getRowConstraints().add(row2);
-    RowConstraints row3 = new RowConstraints(22);
-    row3.setValignment(VPos.TOP);
-    this.root.getRowConstraints().add(row3);
   }
   private void fill() {
     for (MainRegion node: this.nodes) {

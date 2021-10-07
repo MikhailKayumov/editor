@@ -1,6 +1,10 @@
 package com.mk.editor.entities;
 
 import com.mk.editor.utils.Axes;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Camera;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Translate;
@@ -10,6 +14,12 @@ public class Camera3D extends Object3D {
   private final Camera camera = new PerspectiveCamera(true); // камера
   private final Object3D altitude = new Object3D(); // объект поворота по оси X
   private final Translate ct = new Translate(0, 0, 0); // для зума
+
+  private final Axes azimuthAxes = new Axes(0.5, 15); // оси азимута
+  private final Axes altitudeAxes = new Axes(0.5, 15); // оси высоты
+
+  // Наблюдаемые свойства
+  // public SimpleStringProperty zoomProperty = new SimpleStringProperty("");
 
   /**
    * Конструктор
@@ -21,13 +31,10 @@ public class Camera3D extends Object3D {
     this.camera.setFarClip(10000.0); // дальняя область отсечения
     this.camera.getTransforms().add(this.ct);
 
-    Axes axes = new Axes(0.5, 15);
-    Axes axes2 = new Axes(0.5, 15);
-
     // добавления камеры в объект поворота по оси X
-    this.altitude.addChildren(this.camera, axes);
+    this.altitude.addChildren(this.camera, this.altitudeAxes);
     // добавления объект поворота в главную обертку
-    this.addChildren(this.altitude, axes2);
+    this.addChildren(this.altitude, this.azimuthAxes);
 
     // инициализация (опционально)
     this.init();
@@ -39,6 +46,10 @@ public class Camera3D extends Object3D {
    */
   public Camera getCamera() {
     return camera;
+  }
+
+  public DoubleProperty zoomProperty() {
+    return this.ct.zProperty();
   }
 
   /**
@@ -85,6 +96,7 @@ public class Camera3D extends Object3D {
    */
   public void zoom(double z) {
     this.ct.setZ(this.ct.getZ() + z);
+    // this.zoomProperty.set(String.valueOf(-this.ct.getZ()));
   }
   /**
    * Сброс камеры в исходное положение

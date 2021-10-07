@@ -4,7 +4,7 @@ import com.mk.editor.entities.Camera3D;
 import com.mk.editor.entities.Scene3D;
 import com.mk.editor.entities.World3D;
 import com.mk.editor.gui.MainRegion;
-import com.mk.editor.gui.utils.AppColor;
+import com.mk.editor.utils.AppColor;
 import javafx.scene.Group;
 
 public class Viewport extends MainRegion {

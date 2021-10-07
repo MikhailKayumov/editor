@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root
+    type="javafx.scene.layout.VBox"
+    xmlns:fx="http://javafx.com/fxml"
+    stylesheets="@properties.css"
+>
+    <VBox styleClass="camera_props">
+        <Label styleClass="title">Camera properties</Label>
+        <VBox styleClass="props-row">
+            <Label styleClass="sub-title">Translation</Label>
+            <HBox spacing="10">
+                <VBox>
+                    <Label styleClass="field-title">X</Label>
+                    <TextField styleClass="field"/>
+                </VBox>
+                <VBox>
+                    <Label styleClass="field-title">Y</Label>
+                    <TextField styleClass="field"/>
+                </VBox>
+                <VBox>
+                    <Label styleClass="field-title">Z</Label>
+                    <TextField styleClass="field"/>
+                </VBox>
+            </HBox>
+        </VBox>
+        <VBox styleClass="props-row">
+            <Label styleClass="sub-title">Rotation</Label>
+            <HBox spacing="10">
+                <VBox>
+                    <Label styleClass="field-title">Azimuth</Label>
+                    <TextField styleClass="field"/>
+                </VBox>
+                <VBox>
+                    <Label styleClass="field-title">Altitude</Label>
+                    <TextField styleClass="field"/>
+                </VBox>
+            </HBox>
+        </VBox>
+        <VBox styleClass="props-row">
+            <Label styleClass="sub-title">Zoom</Label>
+            <TextField fx:id="zoom" styleClass="field"/>
+        </VBox>
+    </VBox>
+</fx:root>

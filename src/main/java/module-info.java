@@ -10,5 +10,10 @@ module com.mk.editor {
   requires java.desktop;
 
   opens com.mk.editor to javafx.fxml;
+  opens com.mk.editor.controllers.sidebar to javafx.fxml;
+  // opens com.mk.editor.controllers.toolbar to javafx.fxml;
+
   exports com.mk.editor;
+  exports com.mk.editor.controllers.sidebar;
+  // exports com.mk.editor.controllers.toolbar;
 }

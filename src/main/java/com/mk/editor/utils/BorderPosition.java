@@ -1,9 +1,9 @@
-package com.mk.editor.gui.utils;
+package com.mk.editor.utils;
 
 public enum BorderPosition {
   ALL,
   TOP,
   LEFT,
   RIGHT,
-  BOTTOM;
+  BOTTOM
 }

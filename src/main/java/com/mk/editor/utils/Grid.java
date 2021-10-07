@@ -1,7 +1,6 @@
 package com.mk.editor.utils;
 
 import com.mk.editor.entities.Object3D;
-import com.mk.editor.gui.utils.AppColor;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;

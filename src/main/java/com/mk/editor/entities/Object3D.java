@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
+import javafx.scene.transform.Shear;
 import javafx.scene.transform.Translate;
 
 import java.util.Collection;
@@ -21,7 +22,9 @@ public class Object3D extends Group {
   protected final Rotate ry = new Rotate(0, Rotate.Y_AXIS);
   protected final Rotate rz = new Rotate(0, Rotate.Z_AXIS);
   // масштаб
-  protected final Scale s = new Scale();
+  protected final Scale s = new Scale(1, 1, 1);
+  // искажение
+  protected final Shear sh = new Shear(0, 0);
 
   /**
    * Конструктор 1

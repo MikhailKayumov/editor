@@ -121,6 +121,8 @@ public class Scene3D extends SubScene {
         else if (event.isControlDown()) this.camera.resetRotate();
         else if (event.isShiftDown()) this.camera.resetTranslate();
         else this.camera.reset();
+      } else if (event.getCode() == KeyCode.DELETE) {
+        this.world.deleteMesh();
       }
     });
   }

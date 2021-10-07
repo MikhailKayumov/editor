@@ -1,8 +1,9 @@
 package com.mk.editor.gui;
 
-import com.mk.editor.gui.utils.AppColor;
-import com.mk.editor.gui.utils.BorderPosition;
+import com.mk.editor.utils.AppColor;
+import com.mk.editor.utils.BorderPosition;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -10,7 +11,9 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MainRegion {
   private int columnId;
@@ -18,8 +21,8 @@ public abstract class MainRegion {
   private int colspan;
   private int rowspan;
 
-  protected ArrayList<Node> content = new ArrayList<>();
-  protected final Pane root = new Pane();
+  protected Group content = new Group();
+  protected Pane root = new Pane();
 
   public MainRegion(
     BorderPosition pos,
@@ -68,12 +71,13 @@ public abstract class MainRegion {
     return this.root;
   }
 
-  abstract public void render();
+  abstract public void render() throws IOException;
 
+  protected void addContent(Node node) {
+    this.content.getChildren().add(node);
+  }
   protected void addContent(Node... nodes) {
-    for (Node node: nodes) {
-      this.content.add(node);
-    }
+    this.content.getChildren().addAll(nodes);
   }
 
   private MainRegion init(int columnId, int rowId, int colspan, int rowspan) {
