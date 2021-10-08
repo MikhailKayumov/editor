@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Разметка для панели Sidebar без выбранного 3d объекта -->
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -8,22 +9,22 @@
     xmlns:fx="http://javafx.com/fxml"
     stylesheets="@properties.css"
 >
-    <VBox styleClass="camera_props">
+    <VBox>
         <Label styleClass="title">Camera properties</Label>
         <VBox styleClass="props-row">
             <Label styleClass="sub-title">Translation</Label>
             <HBox spacing="10">
                 <VBox>
                     <Label styleClass="field-title">X</Label>
-                    <TextField styleClass="field"/>
+                    <TextField fx:id="tx" styleClass="field"/>
                 </VBox>
                 <VBox>
                     <Label styleClass="field-title">Y</Label>
-                    <TextField styleClass="field"/>
+                    <TextField fx:id="ty" styleClass="field"/>
                 </VBox>
                 <VBox>
                     <Label styleClass="field-title">Z</Label>
-                    <TextField styleClass="field"/>
+                    <TextField fx:id="tz" styleClass="field"/>
                 </VBox>
             </HBox>
         </VBox>
@@ -32,11 +33,11 @@
             <HBox spacing="10">
                 <VBox>
                     <Label styleClass="field-title">Azimuth</Label>
-                    <TextField styleClass="field"/>
+                    <TextField fx:id="azimuth" styleClass="field"/>
                 </VBox>
                 <VBox>
                     <Label styleClass="field-title">Altitude</Label>
-                    <TextField styleClass="field"/>
+                    <TextField fx:id="altitude" styleClass="field"/>
                 </VBox>
             </HBox>
         </VBox>

@@ -1,10 +1,7 @@
 package com.mk.editor.entities;
 
 import com.mk.editor.utils.Axes;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Camera;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Translate;
@@ -17,9 +14,6 @@ public class Camera3D extends Object3D {
 
   private final Axes azimuthAxes = new Axes(0.5, 15); // оси азимута
   private final Axes altitudeAxes = new Axes(0.5, 15); // оси высоты
-
-  // Наблюдаемые свойства
-  // public SimpleStringProperty zoomProperty = new SimpleStringProperty("");
 
   /**
    * Конструктор
@@ -48,6 +42,46 @@ public class Camera3D extends Object3D {
     return camera;
   }
 
+  // Наблюдаемые свойства
+  /**
+   * Возвращает свойство назначенное X
+   * @return значение X
+   */
+  public DoubleProperty camXProperty() {
+    return this.t.xProperty();
+  }
+  /**
+   * Возвращает свойство назначенное X
+   * @return значение Y
+   */
+  public DoubleProperty camYProperty() {
+    return this.t.yProperty();
+  }
+  /**
+   * Возвращает свойство назначенное X
+   * @return значение Z
+   */
+  public DoubleProperty camZProperty() {
+    return this.t.zProperty();
+  }
+  /**
+   * Возвращает свойство назначенное угла азимута
+   * @return значение угла азимута
+   */
+  public DoubleProperty azimuthProperty() {
+    return this.rz.angleProperty();
+  }
+  /**
+   * Возвращает свойство назначенное угла высоты
+   * @return значение угла высоты
+   */
+  public DoubleProperty altitudeProperty() {
+    return this.altitude.rx.angleProperty();
+  }
+  /**
+   * Возвращает свойство назначенное зума
+   * @return значение зума
+   */
   public DoubleProperty zoomProperty() {
     return this.ct.zProperty();
   }

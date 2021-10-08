@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Разметка для панели Sidebar c выбранным 3d объектом -->
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>

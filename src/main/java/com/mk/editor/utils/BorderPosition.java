@@ -1,7 +1,7 @@
 package com.mk.editor.utils;
 
+// Возможные позиции бордеров для основной разметки приложения
 public enum BorderPosition {
-  ALL,
   TOP,
   LEFT,
   RIGHT,

@@ -2,9 +2,16 @@ package com.mk.editor.utils;
 
 import java.util.regex.Pattern;
 
+// Класс для форматирования введенных значений в полях
 public class Formater {
+  /**
+   * Форматирует введенное значение из поля формы
+   * и возвращает результат
+   * @param str - введенное значение
+   * @return отформатированная строка
+   */
   public static String formatDoubleString(String str) {
-    Boolean isNegative = str.startsWith("-");
+    boolean isNegative = str.startsWith("-");
 
     String withoutLetters = str.replaceAll("[^0-9.]", "");
     String[] parts = withoutLetters.split(Pattern.quote("."));

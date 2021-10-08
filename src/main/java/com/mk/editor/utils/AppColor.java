@@ -2,6 +2,7 @@ package com.mk.editor.utils;
 
 import javafx.scene.paint.Color;
 
+// Основные цвета приложения (справочник)
 public final class AppColor {
   public static Color BGPrimary = Color.grayRgb(44);
   public static Color BGSecondary = Color.grayRgb(49);
@@ -15,7 +16,6 @@ public final class AppColor {
   public static Color FontPrimary = Color.grayRgb(250);
 
   public static Color BorderColor = Color.grayRgb(144);
-  public static Color BorderColorSecondary = Color.grayRgb(98);
 
   public static Color XAxisColor = Color.rgb(244, 50, 80);
   public static Color YAxisColor = Color.rgb(111, 164, 19);

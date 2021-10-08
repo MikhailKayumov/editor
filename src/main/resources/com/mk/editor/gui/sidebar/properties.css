@@ -1,4 +1,4 @@
-.title, .sub-title, .field-title {
+.title, .sub-title, .field-title, .field {
     -fx-text-fill: rgb(250, 250, 250);
 }
 
@@ -19,7 +19,7 @@
 .field {
     -fx-max-width: 84px;
     -fx-alignment: center-right;
-}
-
-.camera_props {
+    -fx-background-color: -fx-text-box-border, rgb(44,44,44);
+    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background-radius: 0 ;
 }
