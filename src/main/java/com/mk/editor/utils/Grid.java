@@ -1,6 +1,7 @@
 package com.mk.editor.utils;
 
 import com.mk.editor.entities.Object3D;
+
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -8,7 +9,7 @@ import javafx.scene.shape.Box;
 import java.util.ArrayList;
 
 // Квадратная координатная сетка
-public class Grid extends Object3D {
+public final class Grid extends Object3D {
   private final int size; // количество линий
   private final int step; // шаг сетки
   private final int lineLen; // длина одной линии

@@ -6,12 +6,13 @@ import com.mk.editor.entities.World3D;
 import com.mk.editor.gui.MainRegion;
 import com.mk.editor.utils.AppColor;
 import com.mk.editor.utils.BorderPosition;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
 
-public class Sidebar extends MainRegion {
+public final class Sidebar extends MainRegion {
   private final World3D world;
   private final Camera3D camera;
   private final VBox container;
@@ -52,9 +53,12 @@ public class Sidebar extends MainRegion {
 
   public void render() throws IOException {
     this.outliner.build();
+
     this.properties.setFillWidth(true);
     this.properties.setMaxWidth(this.root.getWidth());
+
     this.cameraPropsLoader.load();
+
     this.world.getPickedNode().addListener(event -> {
       this.properties.getChildren().clear();
       try {

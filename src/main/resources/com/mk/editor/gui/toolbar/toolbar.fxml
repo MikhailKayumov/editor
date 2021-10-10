@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<fx:root
+    type="javafx.scene.layout.GridPane"
+    xmlns:fx="http://javafx.com/fxml"
+    stylesheets="@../properties.css"
+    styleClass="toolbar"
+>
+    <HBox
+        styleClass="toolbar-shapes"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="0"
+        GridPane.hgrow="ALWAYS"
+    >
+        <!--<Button styleClass="button" onMouseClicked="#startCreatingPlane">
+            <graphic>
+                <FontIcon styleClass="button-icon" iconLiteral="bxs-rectangle"/>
+            </graphic>
+        </Button>-->
+        <Button styleClass="button" onMouseClicked="#startCreatingCube">
+            <graphic>
+                <FontIcon styleClass="button-icon" iconLiteral="bxs-cube"/>
+            </graphic>
+        </Button>
+        <Button styleClass="button" onMouseClicked="#startCreatingCylinder">
+            <graphic>
+                <FontIcon styleClass="button-icon" iconLiteral="bxs-cylinder"/>
+            </graphic>
+        </Button>
+        <Button styleClass="button" onMouseClicked="#startCreatingSphere">
+            <graphic>
+                <FontIcon styleClass="button-icon" iconLiteral="bx-globe"/>
+            </graphic>
+        </Button>
+        <!--<Button styleClass="button" onMouseClicked="#startCreatingPyramid">
+            <graphic>
+                <FontIcon styleClass="button-icon" iconLiteral="bxs-pyramid"/>
+            </graphic>
+        </Button>-->
+    </HBox>
+    <HBox
+        styleClass="toolbar-tools"
+        GridPane.columnIndex="1"
+        GridPane.rowIndex="0"
+    >
+        <Button styleClass="button" onMouseClicked="#renderScene">
+            <graphic>
+                <FontIcon styleClass="button-icon" iconLiteral="bxs-image-alt"/>
+            </graphic>
+        </Button>
+    </HBox>
+</fx:root>

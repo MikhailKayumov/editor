@@ -17,6 +17,8 @@ public final class AppColor {
 
   public static Color BorderColor = Color.grayRgb(144);
 
+  public static Color PickedColor = Color.rgb(232, 162, 56);
+
   public static Color XAxisColor = Color.rgb(244, 50, 80);
   public static Color YAxisColor = Color.rgb(111, 164, 19);
   public static Color ZAxisColor = Color.rgb(43, 129, 222);

@@ -1,10 +1,10 @@
 package com.mk.editor.entities;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
-import javafx.scene.transform.Shear;
 import javafx.scene.transform.Translate;
 
 import java.util.Collection;
@@ -15,16 +15,12 @@ public class Object3D extends Group {
   public enum RotateOrder { XYZ, XZY, YXZ, YZX, ZXY, ZYX }
   // перемещение
   protected final Translate t = new Translate(0.0, 0.0, 0.0);
-  // protected final Translate p = new Translate(0.0, 0.0, 0.0);
-  // protected final Translate ip = new Translate(0.0, 0.0, 0.0);
   // повороты
   protected final Rotate rx = new Rotate(0, Rotate.X_AXIS);
   protected final Rotate ry = new Rotate(0, Rotate.Y_AXIS);
   protected final Rotate rz = new Rotate(0, Rotate.Z_AXIS);
   // масштаб
   protected final Scale s = new Scale(1, 1, 1);
-  // искажение
-  protected final Shear sh = new Shear(0, 0);
 
   /**
    * Конструктор 1
@@ -59,6 +55,71 @@ public class Object3D extends Group {
         this.getTransforms().addAll(t, rx, ry, rz, s);
         break;
     }
+  }
+
+  // Методы для получения наблюдаемых свойств
+  /**
+   * Возвращает свойство назначенное X
+   * @return значение X
+   */
+  public DoubleProperty xProperty() {
+    return this.t.xProperty();
+  }
+  /**
+   * Возвращает свойство назначенное Y
+   * @return значение Y
+   */
+  public DoubleProperty yProperty() {
+    return this.t.yProperty();
+  }
+  /**
+   * Возвращает свойство назначенное Z
+   * @return значение Z
+   */
+  public DoubleProperty zProperty() {
+    return this.t.zProperty();
+  }
+  /**
+   * Возвращает свойство назначенное углу поворота вокруг оси X
+   * @return значение угла поворота вокруг оси X
+   */
+  public DoubleProperty rxProperty() {
+    return this.rx.angleProperty();
+  }
+  /**
+   * Возвращает свойство назначенное углу поворота вокруг оси Y
+   * @return значение угла поворота вокруг оси Y
+   */
+  public DoubleProperty ryProperty() {
+    return this.ry.angleProperty();
+  }
+  /**
+   * Возвращает свойство назначенное углу поворота вокруг оси Z
+   * @return значение угла поворота вокруг оси Z
+   */
+  public DoubleProperty rzProperty() {
+    return this.rz.angleProperty();
+  }
+  /**
+   * Возвращает свойство назначенное масштабу по оси X
+   * @return значение масштаба по оси X
+   */
+  public DoubleProperty sxProperty() {
+    return this.s.xProperty();
+  }
+  /**
+   * Возвращает свойство назначенное масштабу по оси Y
+   * @return значение масштаба по оси Y
+   */
+  public DoubleProperty syProperty() {
+    return this.s.yProperty();
+  }
+  /**
+   * Возвращает свойство назначенное масштабу по оси Z
+   * @return значение масштаба по оси Z
+   */
+  public DoubleProperty szProperty() {
+    return this.s.zProperty();
   }
 
   // операции перемещения
@@ -227,11 +288,25 @@ public class Object3D extends Group {
     this.getChildren().add(node);
   }
   /**
+   * Удаляет узел
+   * @param node - узел
+   */
+  public void removeChild(Node node) {
+    this.getChildren().remove(node);
+  }
+  /**
    * Добавляет узлы
    * @param nodes - узлы
    */
   public void addChildren(Node... nodes) {
     this.getChildren().addAll(nodes);
+  }
+  /**
+   * Удаляет узлы
+   * @param nodes - узлы
+   */
+  public void removeChildren(Node... nodes) {
+    for (Node node: nodes) this.removeChild(node);
   }
   /**
    * Добавляет узлы

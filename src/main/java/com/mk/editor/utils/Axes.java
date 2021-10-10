@@ -1,13 +1,14 @@
 package com.mk.editor.utils;
 
 import com.mk.editor.entities.Object3D;
+
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.transform.Rotate;
 
 // Объект создает узел содержащий оси координат, различных цветов
-public class Axes extends Object3D {
+public final class Axes extends Object3D {
   /**
    * Конструктор
    * @param axesRadius - толщина оси

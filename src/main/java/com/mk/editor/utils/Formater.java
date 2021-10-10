@@ -3,7 +3,7 @@ package com.mk.editor.utils;
 import java.util.regex.Pattern;
 
 // Класс для форматирования введенных значений в полях
-public class Formater {
+public final class Formater {
   /**
    * Форматирует введенное значение из поля формы
    * и возвращает результат

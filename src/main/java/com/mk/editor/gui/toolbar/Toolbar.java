@@ -1,88 +1,47 @@
 package com.mk.editor.gui.toolbar;
 
+import com.mk.editor.controllers.toolbar.ToolbarController;
+import com.mk.editor.entities.World3D;
 import com.mk.editor.gui.MainRegion;
 import com.mk.editor.utils.AppColor;
 import com.mk.editor.utils.BorderPosition;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import org.kordamp.ikonli.javafx.FontIcon;
 
-public class Toolbar extends MainRegion {
-  public Toolbar() {
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.GridPane;
+
+import java.io.IOException;
+
+// Класс создания тулбара с кнопками возможных 3D объектов
+public final class Toolbar extends MainRegion {
+  private final GridPane box; // основной контейнер
+  private final FXMLLoader loader; // загрузчик разметки
+
+  /**
+   * Конструктор
+   * @param world - мир сцены
+   */
+  public Toolbar(World3D world) {
     super(BorderPosition.BOTTOM, AppColor.BGPrimary, 0, 0);
-    this.addContent(this.createShapeButtons());
-  }
-
-  public void render() {
     this.root.getChildren().add(this.content);
+
+    this.box = new GridPane();
+    this.addContent(this.box);
+
+    this.loader = new FXMLLoader(getClass().getResource("toolbar.fxml"));
+    this.loader.setRoot(this.box);
+    this.loader.setController(new ToolbarController(world));
   }
 
-  private HBox createShapeButtons() {
-    FontIcon iBox = new FontIcon("bx-cube");
-    iBox.setIconColor(AppColor.FontPrimary);
-    iBox.setIconSize(20);
-
-    FontIcon iCylinder = new FontIcon("bx-cylinder");
-    iCylinder.setIconColor(AppColor.FontPrimary);
-    iCylinder.setIconSize(20);
-
-    Button btnBox = new Button("", iBox);
-    btnBox.setMinSize(30, 30);
-    btnBox.setMaxSize(30, 30);
-    btnBox.setPrefSize(30, 30);
-    btnBox.setCursor(Cursor.HAND);
-    btnBox.setStyle("-fx-background-color: " + AppColor.getCSS(AppColor.BGButton) + ";");
-    btnBox.setOnMouseEntered(e -> {
-      btnBox.setStyle(
-        "-fx-background-color: " + AppColor.getCSS(AppColor.BGButtonHover) + ";"
-      );
+  /**
+   * Отрисовывает контент панели
+   * @throws IOException - ошибка получения файла разметки
+   */
+  public void render() throws IOException {
+    this.box.setPrefSize(this.root.getWidth(), this.root.getHeight() - 2);
+    this.root.widthProperty().addListener(e -> {
+      this.box.setPrefWidth(((ReadOnlyDoubleProperty)e).getValue());
     });
-    btnBox.setOnMousePressed(e -> {
-      btnBox.setStyle(
-        "-fx-background-color: " + AppColor.getCSS(AppColor.BGButtonActive) + ";"
-      );
-    });
-    btnBox.setOnMouseExited(e -> {
-      btnBox.setStyle(
-        "-fx-background-color: " + AppColor.getCSS(AppColor.BGButton) + ";");
-    });
-    btnBox.setOnMouseReleased(e -> {
-      btnBox.setStyle(
-        "-fx-background-color: " + AppColor.getCSS(AppColor.BGButtonHover) + ";");
-    });
-
-    Button btnCylinder = new Button("", iCylinder);
-    btnCylinder.setMinSize(30, 30);
-    btnCylinder.setMaxSize(30, 30);
-    btnCylinder.setPrefSize(30, 30);
-    btnCylinder.setCursor(Cursor.HAND);
-    btnCylinder.setStyle("-fx-background-color: " + AppColor.getCSS(AppColor.BGButton) + ";");
-    btnCylinder.setOnMouseEntered(e -> {
-      btnCylinder.setStyle(
-        "-fx-background-color: " + AppColor.getCSS(AppColor.BGButtonHover) + ";"
-      );
-    });
-    btnCylinder.setOnMousePressed(e -> {
-      btnCylinder.setStyle(
-        "-fx-background-color: " + AppColor.getCSS(AppColor.BGButtonActive) + ";"
-      );
-    });
-    btnCylinder.setOnMouseExited(e -> {
-      btnCylinder.setStyle(
-        "-fx-background-color: " + AppColor.getCSS(AppColor.BGButton) + ";");
-    });
-    btnCylinder.setOnMouseReleased(e -> {
-      btnCylinder.setStyle(
-        "-fx-background-color: " + AppColor.getCSS(AppColor.BGButtonHover) + ";");
-    });
-
-    HBox box = new HBox(5, btnBox, btnCylinder);
-    box.setPadding(new Insets(5));
-    box.setAlignment(Pos.BASELINE_CENTER);
-
-    return box;
+    this.loader.load();
   }
 }

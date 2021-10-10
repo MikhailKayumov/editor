@@ -1,64 +1,100 @@
 package com.mk.editor.entities;
 
-import javafx.geometry.Point3D;
+import com.mk.editor.controllers.viewport.ViewportController;
+import com.mk.editor.shapes.CubeMesh;
+import com.mk.editor.shapes.BaseMesh;
+import com.mk.editor.shapes.CylinderMesh;
+import com.mk.editor.shapes.SphereMesh;
+
 import javafx.scene.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.PickResult;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.*;
-import javafx.scene.transform.Rotate;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.embed.swing.SwingFXUtils;
 
-public class Scene3D extends SubScene {
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+
+public final class Scene3D extends SubScene {
+  private Stage stage;
   private World3D world;
   private Camera3D camera;
+  private ViewportController ctrl;
 
   double mousePosX, mousePosY, mouseOldX, mouseOldY;
   private static final double CONTROL_MULTIPLIER = 0.1;
   private static final double SHIFT_MULTIPLIER = 3.0;
 
-  public Scene3D(Group root, World3D world, Camera3D camera) {
+  public Scene3D(Group root, World3D world, Camera3D camera, Stage stage) {
     super(root, 0, 0, true, SceneAntialiasing.BALANCED);
 
+    this.stage = stage;
     this.world = world;
     this.camera = camera;
+    this.ctrl = new ViewportController(this, this.world, this.camera, this.stage);
+
+    this.world.setScene(this);
     this.world.addChild(camera);
 
     this.setDepthTest(DepthTest.ENABLE);
     this.setCamera(this.camera.getCamera());
 
-    this.buildBodySystem();
+    // this.buildBodySystem();
     this.handleMouse();
   }
 
   public void render() {
     ((Group)this.getRoot()).getChildren().add(this.world);
   }
+  public void makeImg() {
+    FileChooser chooser = new FileChooser();
+    chooser.setTitle("Save scene");
+    chooser.setInitialFileName("scene.png");
+    chooser.setInitialDirectory(new File(System.getProperty("user.home")));
+    chooser.getExtensionFilters().addAll(
+      new FileChooser.ExtensionFilter("JPEG Files", "*.jpeg"),
+      new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
+      new FileChooser.ExtensionFilter("PNG Files", "*.png"),
+      new FileChooser.ExtensionFilter("GIF Files", "*.gif")
+    );
+
+    File outFile = chooser.showSaveDialog(this.stage);
+    if (outFile != null) {
+      try {
+        WritableImage image = this.snapshot(new SnapshotParameters(), null);
+        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", outFile);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
 
   private void buildBodySystem() {
-    PhongMaterial whiteMaterial = new PhongMaterial(Color.WHITE);
-    // whiteMaterial.setSpecularColor(Color.WHITE);
+    CubeMesh cube = new CubeMesh();
+    cube.setMaterial(Color.rgb(125, 50, 235));
+    cube.addTz(30);
+    cube.addTx(70);
+    cube.setSize(50);
 
-    Box box = new Box(54, 54, 54);
-    box.setMaterial(whiteMaterial);
-    Rotate rBox = new Rotate(0, 0, 0, 0, new Point3D(0, 0, 1));
-    box.getTransforms().add(rBox);
-    box.setTranslateZ(34);
-    box.setTranslateX(40);
-    box.setTranslateY(-60);
-    rBox.setAngle(30);
+    SphereMesh sphere = new SphereMesh();
+    sphere.setMaterial(Color.rgb(235, 50, 125));
+    sphere.addTz(30);
+    sphere.setRadius(25);
 
-    Box box2 = new Box(54, 54, 54);
-    box2.setMaterial(whiteMaterial);
-    Rotate rBox2 = new Rotate(0, 0, 0, 0, new Point3D(0, 0, 1));
-    box2.getTransforms().add(rBox);
-    box2.setTranslateZ(150);
-    box2.setTranslateX(40);
-    box2.setTranslateY(-60);
-    rBox2.setAngle(30);
+    CylinderMesh cylinder = new CylinderMesh();
+    cylinder.setMaterial(Color.rgb(56, 75, 210));
+    cylinder.addTz(30);
+    cylinder.setRadius(25);
+    cylinder.setHeight(50);
+    cylinder.addTx(-70);
 
-    this.world.addMesh(box, box2);
+    this.world.addMesh(cube);
+    this.world.addMesh(sphere);
+    this.world.addMesh(cylinder);
   }
 
   private void handleMouse() {
@@ -101,13 +137,12 @@ public class Scene3D extends SubScene {
     this.setOnMouseClicked(event -> {
       if (event.getButton() == MouseButton.PRIMARY) {
         Node res = event.getPickResult().getIntersectedNode();
-        if (res != null && res.getParent() == this.world.getMeshes()) {
-          this.world.setPickedNode(res);
+        if (res != null && res.getParent() instanceof BaseMesh) {
+          this.world.setPickedNode((BaseMesh)res.getParent());
         } else {
           this.world.delPickedNode();
         }
       }
-      // event.consume();
     });
 
     this.setOnKeyPressed(event -> {
@@ -123,21 +158,10 @@ public class Scene3D extends SubScene {
         else this.camera.reset();
       } else if (event.getCode() == KeyCode.DELETE) {
         this.world.deleteMesh();
+      } else if (event.getCode() == KeyCode.PRINTSCREEN) {
+        this.makeImg();
       }
     });
   }
 
-  void setState(PickResult result) {
-    if (result.getIntersectedNode() == null) {
-      System.out.println("Scene");
-      System.out.println(result.getIntersectedNode());
-      System.out.println(result.getIntersectedPoint());
-      System.out.println(String.format("%.1f", result.getIntersectedDistance()));
-    } else {
-      System.out.println(result.getIntersectedNode());
-      System.out.println(result.getIntersectedPoint());
-      System.out.println(String.format("%.1f", result.getIntersectedDistance()));
-    }
-    System.out.println("========================================");
-  }
 }

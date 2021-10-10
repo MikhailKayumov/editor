@@ -1,7 +1,9 @@
 package com.mk.editor.gui.sidebar;
 
 import com.mk.editor.entities.World3D;
+import com.mk.editor.shapes.BaseMesh;
 import com.mk.editor.utils.AppColor;
+
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -17,7 +19,7 @@ import javafx.scene.text.Font;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // Класс создает объект панели для списка 3D мешей
-public class Outliner {
+public final class Outliner {
   private final World3D world; // мир
   private final VBox root = new VBox(); // контейнер панели
 
@@ -100,7 +102,7 @@ public class Outliner {
       ))
     );
     this.fillList(list);
-    this.world.getMeshes().getChildren().addListener((ListChangeListener<? super Node>) event -> this.fillList(list));
+    this.world.getMeshes().addListener((ListChangeListener<? super Node>) event -> this.fillList(list));
     return this.buildListScrollPane(list);
   }
   /**
@@ -110,8 +112,8 @@ public class Outliner {
   private void fillList(VBox list) {
     list.getChildren().clear();
     AtomicInteger i = new AtomicInteger(0);
-    this.world.getMeshes().getChildren().forEach(mesh -> {
-      Label label = new Label("Mesh " + mesh);
+    this.world.getMeshes().forEach((mesh) -> {
+      Label label = new Label(((BaseMesh) mesh).getName());
       label.setPadding(new Insets(4, 18, 4, 18));
       label.setMaxWidth(Double.MAX_VALUE);
       label.setTextFill(AppColor.FontPrimary);
@@ -123,7 +125,7 @@ public class Outliner {
           new Insets(0)
         ))
       );
-      label.setOnMouseClicked(e -> this.world.setPickedNode(mesh));
+      label.setOnMouseClicked(e -> this.world.setPickedNode((BaseMesh)mesh));
       list.getChildren().add(label);
     });
   }

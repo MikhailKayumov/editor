@@ -7,10 +7,10 @@
 <fx:root
     type="javafx.scene.layout.VBox"
     xmlns:fx="http://javafx.com/fxml"
-    stylesheets="@properties.css"
+    stylesheets="@../properties.css"
 >
     <VBox>
-        <Label styleClass="title">Camera properties</Label>
+        <Label styleClass="title">Camera and World properties</Label>
         <VBox styleClass="props-row">
             <Label styleClass="sub-title">Translation</Label>
             <HBox spacing="10">
@@ -44,6 +44,10 @@
         <VBox styleClass="props-row">
             <Label styleClass="sub-title">Zoom</Label>
             <TextField fx:id="zoom" styleClass="field"/>
+        </VBox>
+        <VBox styleClass="props-row">
+            <Label styleClass="sub-title">World background</Label>
+            <ColorPicker fx:id="bgColor" styleClass="field"/>
         </VBox>
     </VBox>
 </fx:root>

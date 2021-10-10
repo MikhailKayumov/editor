@@ -1,19 +1,15 @@
 package com.mk.editor.entities;
 
-import com.mk.editor.utils.Axes;
 import javafx.beans.property.*;
 import javafx.scene.Camera;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Translate;
 
 // Класс камеры приложения
-public class Camera3D extends Object3D {
+public final class Camera3D extends Object3D {
   private final Camera camera = new PerspectiveCamera(true); // камера
   private final Object3D altitude = new Object3D(); // объект поворота по оси X
   private final Translate ct = new Translate(0, 0, 0); // для зума
-
-  private final Axes azimuthAxes = new Axes(0.5, 15); // оси азимута
-  private final Axes altitudeAxes = new Axes(0.5, 15); // оси высоты
 
   /**
    * Конструктор
@@ -26,9 +22,9 @@ public class Camera3D extends Object3D {
     this.camera.getTransforms().add(this.ct);
 
     // добавления камеры в объект поворота по оси X
-    this.altitude.addChildren(this.camera, this.altitudeAxes);
+    this.altitude.addChild(this.camera);
     // добавления объект поворота в главную обертку
-    this.addChildren(this.altitude, this.azimuthAxes);
+    this.addChild(this.altitude);
 
     // инициализация (опционально)
     this.init();
@@ -42,34 +38,12 @@ public class Camera3D extends Object3D {
     return camera;
   }
 
-  // Наблюдаемые свойства
-  /**
-   * Возвращает свойство назначенное X
-   * @return значение X
-   */
-  public DoubleProperty camXProperty() {
-    return this.t.xProperty();
-  }
-  /**
-   * Возвращает свойство назначенное X
-   * @return значение Y
-   */
-  public DoubleProperty camYProperty() {
-    return this.t.yProperty();
-  }
-  /**
-   * Возвращает свойство назначенное X
-   * @return значение Z
-   */
-  public DoubleProperty camZProperty() {
-    return this.t.zProperty();
-  }
   /**
    * Возвращает свойство назначенное угла азимута
    * @return значение угла азимута
    */
   public DoubleProperty azimuthProperty() {
-    return this.rz.angleProperty();
+    return this.rzProperty();
   }
   /**
    * Возвращает свойство назначенное угла высоты

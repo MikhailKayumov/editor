@@ -1,63 +1,118 @@
 package com.mk.editor.entities;
 
+import com.mk.editor.shapes.BaseMesh;
 import com.mk.editor.utils.Axes;
 import com.mk.editor.utils.Grid;
+
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Shape3D;
 
-public class World3D extends Object3D {
-  private final Object3D meshes = new Object3D();
-  private Axes axis = new Axes(1, 40);
-  private Grid grid = new Grid();
-  private SimpleObjectProperty<Shape3D> pickedNode = new SimpleObjectProperty<>(null);
+// Класс мира приложения
+public final class World3D extends Object3D {
+  private final Object3D meshes = new Object3D(); // основной контейнер для 3D объектов
+  // выбранный объект
+  private final SimpleObjectProperty<BaseMesh> pickedNode = new SimpleObjectProperty<>(null);
+  private Scene3D scene; // основная сцена
 
+  /**
+   * Конструктор
+   */
   public World3D() {
     super();
-    this.addChildren(this.axis, this.grid, this.meshes);
+    Grid grid = new Grid();
+    Axes axis = new Axes(1, 40);
+    this.addChildren(axis, grid, this.meshes);
   }
 
+  /**
+   * Устанавливает ссылку на основную сцену
+   * @param scene - сцена
+   */
+  public void setScene(Scene3D scene) {
+    this.scene = scene;
+  }
+  /**
+   * Устанавливает цвет заливки мира
+   * @param color - цвет
+   */
+  public void setBGSceneColor(Color color) {
+    this.scene.setFill(color);
+  }
+
+  /**
+   * Получает список 3D объектов мира
+   * @return список 3D объектов мира
+   */
+  public ObservableList<Node> getMeshes() {
+    return this.meshes.getChildren();
+  }
+  /**
+   * Добавляет объект в мир
+   * @param node - новый объект
+   */
   public void addMesh(Node node) {
     this.meshes.getChildren().add(node);
   }
-  public void addMesh(Node... node) {
-    this.meshes.getChildren().addAll(node);
-  }
+  /**
+   * Удаляет выбранные объект из мира
+   */
   public void deleteMesh() {
-    Shape3D node = this.pickedNode.get();
-    if (node != null) {
-      this.meshes.getChildren().remove(node);
-      this.delPickedNode();
+    BaseMesh existPickShape = this.pickedNode.get();
+    if (existPickShape != null) {
+      this.meshes.getChildren().remove(existPickShape);
+      this.pickedNode.set(null);
     }
   }
 
-  public Object3D getMeshes() {
-    return this.meshes;
+  /**
+   * Возвращает выбранный объект
+   * @return - выбранный объект
+   */
+  public BaseMesh getPickedMesh() {
+    return this.pickedNode.get();
   }
-
-  public SimpleObjectProperty<Shape3D> getPickedNode() {
+  /**
+   * Возвращает наблюдаемое свойство выбранного объекта
+   * @return - наблюдаемое свойство выбранного объекта
+   */
+  public SimpleObjectProperty<BaseMesh> getPickedNode() {
     return this.pickedNode;
   }
+  /**
+   * Устанавливает выбранный объект
+   * @param node - выбранный объект
+   */
+  public void setPickedNode(BaseMesh node) {
+    BaseMesh existPickShape = this.pickedNode.get();
+    if (existPickShape != null) existPickShape.unpick();
+
+    if (node instanceof BaseMesh) {
+      node.pick();
+      this.pickedNode.set(node);
+    }
+  }
+  /**
+   * Отменяет выбранный объект
+   */
+  public void delPickedNode() {
+    BaseMesh node = this.pickedNode.get();
+    if (node != null) node.unpick();
+    this.pickedNode.set(null);
+  }
+  /**
+   * Проверяет, есть ли выбранный объект
+   * @return - результат проверки
+   */
   public boolean isSetPickedNode() {
     return this.pickedNode.get() != null;
   }
-  public void setPickedNode(Node node) {
-    if (this.pickedNode.get() != null) this.delPickedNode();
-    if (node instanceof Shape3D) {
-      PhongMaterial pickedMaterial = new PhongMaterial(Color.rgb(232, 162, 56));
-      ((Shape3D) node).setMaterial(pickedMaterial);
-      this.pickedNode.set((Shape3D) node);
-    }
-  }
-  public void delPickedNode() {
-    Shape3D node = this.pickedNode.get();
-    if (node != null) {
-      PhongMaterial pickedMaterial = new PhongMaterial(Color.WHITE);
-      pickedMaterial.setSpecularColor(Color.WHITE);
-      node.setMaterial(pickedMaterial);
-    }
-    this.pickedNode.set(null);
+
+  /**
+   * Создает изображение сцены
+   */
+  public void makeImg() {
+    this.scene.makeImg();
   }
 }

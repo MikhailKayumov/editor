@@ -7,24 +7,24 @@
 <fx:root
     type="javafx.scene.layout.VBox"
     xmlns:fx="http://javafx.com/fxml"
-    stylesheets="@properties.css"
+    stylesheets="@../properties.css"
 >
-    <VBox styleClass="camera_props">
+    <VBox>
         <Label styleClass="title">3D object properties</Label>
         <VBox styleClass="props-row">
             <Label styleClass="sub-title">Translation</Label>
             <HBox spacing="10">
                 <VBox>
                     <Label styleClass="field-title">X</Label>
-                    <TextField styleClass="field"/>
+                    <TextField styleClass="field" fx:id="x"/>
                 </VBox>
                 <VBox>
                     <Label styleClass="field-title">Y</Label>
-                    <TextField styleClass="field"/>
+                    <TextField styleClass="field" fx:id="y"/>
                 </VBox>
                 <VBox>
                     <Label styleClass="field-title">Z</Label>
-                    <TextField styleClass="field"/>
+                    <TextField styleClass="field" fx:id="z"/>
                 </VBox>
             </HBox>
         </VBox>
@@ -33,15 +33,15 @@
             <HBox spacing="10">
                 <VBox>
                     <Label styleClass="field-title">X</Label>
-                    <TextField styleClass="field"/>
+                    <TextField styleClass="field" fx:id="rx"/>
                 </VBox>
                 <VBox>
                     <Label styleClass="field-title">Y</Label>
-                    <TextField styleClass="field"/>
+                    <TextField styleClass="field" fx:id="ry"/>
                 </VBox>
                 <VBox>
                     <Label styleClass="field-title">Z</Label>
-                    <TextField styleClass="field"/>
+                    <TextField styleClass="field" fx:id="rz"/>
                 </VBox>
             </HBox>
         </VBox>
@@ -50,17 +50,21 @@
             <HBox spacing="10">
                 <VBox>
                     <Label styleClass="field-title">X</Label>
-                    <TextField styleClass="field"/>
+                    <TextField styleClass="field" fx:id="sx"/>
                 </VBox>
                 <VBox>
                     <Label styleClass="field-title">Y</Label>
-                    <TextField styleClass="field"/>
+                    <TextField styleClass="field" fx:id="sy"/>
                 </VBox>
                 <VBox>
                     <Label styleClass="field-title">Z</Label>
-                    <TextField styleClass="field"/>
+                    <TextField styleClass="field" fx:id="sz"/>
                 </VBox>
             </HBox>
+        </VBox>
+        <VBox styleClass="props-row">
+            <Label styleClass="sub-title">Object color</Label>
+            <ColorPicker fx:id="objectColor" styleClass="field"/>
         </VBox>
     </VBox>
 </fx:root>

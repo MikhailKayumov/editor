@@ -2,6 +2,7 @@ package com.mk.editor.gui;
 
 import com.mk.editor.utils.AppColor;
 import com.mk.editor.utils.BorderPosition;
+
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -12,18 +13,26 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
+// Базовый класс для основных панелей приложения
 public abstract class MainRegion {
-  private int columnId;
-  private int rowId;
-  private int colspan;
-  private int rowspan;
+  private int columnId; // номер колонны
+  private int rowId; // номер строки
+  private int colspan; // количество занимаемых колонн
+  private int rowspan; // количество занимаемых строк
 
-  protected Group content = new Group();
-  protected Pane root = new Pane();
+  protected Group content = new Group(); // контент
+  protected Pane root = new Pane(); // корневой узел панели
 
+  /**
+   * Конструктор 1
+   * @param pos - позиция отображения границы
+   * @param color - цвет заливки
+   * @param columnId - номер колонны
+   * @param rowId - номер строки
+   * @param colspan - количество занимаемых колонн
+   * @param rowspan - количество занимаемых строк
+   */
   public MainRegion(
     BorderPosition pos,
     Color color,
@@ -36,6 +45,13 @@ public abstract class MainRegion {
       .setBorder(pos)
       .setBackground(color);
   }
+  /**
+   * Конструктор 2
+   * @param pos - позиция отображения границы
+   * @param color - цвет заливки
+   * @param columnId - номер колонны
+   * @param rowId - номер строки
+   */
   public MainRegion(
     BorderPosition pos,
     Color color,
@@ -46,6 +62,12 @@ public abstract class MainRegion {
       .setBackground(color)
       .setBorder(pos);
   }
+  /**
+   * Конструктор 3
+   * @param color - цвет заливки
+   * @param columnId - номер колонны
+   * @param rowId - номер строки
+   */
   public MainRegion(
     Color color,
     int columnId,
@@ -55,31 +77,64 @@ public abstract class MainRegion {
       .setBackground(color);
   }
 
+  /**
+   * Возвращает номер колонны
+   * @return номер колонны
+   */
   public int getColumnId() {
     return this.columnId;
   }
+  /**
+   * Возвращает номер строки
+   * @return номер строки
+   */
   public int getRowId() {
     return rowId;
   }
+  /**
+   * Возвращает количество занимаемых колонн
+   * @return количество занимаемых колонн
+   */
   public int getColspan() {
     return colspan;
   }
+  /**
+   * Возвращает количество занимаемых строк
+   * @return количество занимаемых строк
+   */
   public int getRowspan() {
     return rowspan;
   }
+  /**
+   * Возвращает корневой узел панели
+   * @return корневой узел панели
+   */
   public Pane getRoot() {
     return this.root;
   }
 
+  /**
+   * Отрисовывает контент панели
+   * @throws IOException возможная ошибка ввода\вывода
+   */
   abstract public void render() throws IOException;
 
+  /**
+   * Добавляет узел в контент
+   * @param node - узел
+   */
   protected void addContent(Node node) {
     this.content.getChildren().add(node);
   }
-  protected void addContent(Node... nodes) {
-    this.content.getChildren().addAll(nodes);
-  }
 
+  /**
+   * Инициализиурет панель
+   * @param columnId - номер колонны
+   * @param rowId - номер строки
+   * @param colspan - количество занимаемых колонн
+   * @param rowspan - количество занимаемых строк
+   * @return ссылка на себя
+   */
   private MainRegion init(int columnId, int rowId, int colspan, int rowspan) {
     this.columnId = columnId;
     this.rowId = rowId;
@@ -87,6 +142,11 @@ public abstract class MainRegion {
     this.rowspan = rowspan;
     return this;
   }
+  /**
+   * Устанавливает границу
+   * @param pos - позиция границы
+   * @return ссылка на себя
+   */
   private MainRegion setBorder(BorderPosition pos) {
     int bWidth = 2;
     BorderWidths bWidths = new BorderWidths(bWidth);
@@ -117,6 +177,11 @@ public abstract class MainRegion {
     this.root.setBorder(border);
     return this;
   }
+  /**
+   * Устанавливает цвет заливки
+   * @param color - цвет заливки
+   * @return ссылка на себя
+   */
   private MainRegion setBackground(Color color) {
     this.root.setBackground(new Background(new BackgroundFill(
       color,
