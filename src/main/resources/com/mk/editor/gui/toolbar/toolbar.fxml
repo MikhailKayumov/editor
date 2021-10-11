@@ -16,11 +16,6 @@
         GridPane.rowIndex="0"
         GridPane.hgrow="ALWAYS"
     >
-        <!--<Button styleClass="button" onMouseClicked="#startCreatingPlane">
-            <graphic>
-                <FontIcon styleClass="button-icon" iconLiteral="bxs-rectangle"/>
-            </graphic>
-        </Button>-->
         <Button styleClass="button" onMouseClicked="#startCreatingCube">
             <graphic>
                 <FontIcon styleClass="button-icon" iconLiteral="bxs-cube"/>
@@ -36,11 +31,6 @@
                 <FontIcon styleClass="button-icon" iconLiteral="bx-globe"/>
             </graphic>
         </Button>
-        <!--<Button styleClass="button" onMouseClicked="#startCreatingPyramid">
-            <graphic>
-                <FontIcon styleClass="button-icon" iconLiteral="bxs-pyramid"/>
-            </graphic>
-        </Button>-->
     </HBox>
     <HBox
         styleClass="toolbar-tools"

@@ -6,9 +6,9 @@
 
     <groupId>com.mk</groupId>
     <artifactId>editor</artifactId>
-    <version>0.1</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
-    <name>editor</name>
+    <name>3DEditor</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

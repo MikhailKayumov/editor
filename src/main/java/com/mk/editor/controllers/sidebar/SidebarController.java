@@ -3,6 +3,9 @@ package com.mk.editor.controllers.sidebar;
 import com.mk.editor.entities.Camera3D;
 import com.mk.editor.entities.World3D;
 import com.mk.editor.shapes.BaseMesh;
+import com.mk.editor.shapes.CubeMesh;
+import com.mk.editor.shapes.CylinderMesh;
+import com.mk.editor.shapes.SphereMesh;
 import com.mk.editor.utils.AppColor;
 import com.mk.editor.utils.TextFieldConverter;
 
@@ -22,6 +25,7 @@ public final class SidebarController implements Initializable {
   private final World3D world; // мир сцены
   private final Camera3D camera; // камеры мира
   private State state; // состояния отображения разметки в данный момент
+  private BaseMesh mesh; // выбранный объект
 
   // Поля вводы для изменения свойств камеры
   @FXML private TextField tx = new TextField("0,000");
@@ -44,15 +48,23 @@ public final class SidebarController implements Initializable {
   @FXML private TextField sz = new TextField("0,000");
   @FXML private ColorPicker objectColor = new ColorPicker();
 
+  // Поля вводы для изменения специфичных свойств объекта
+  @FXML private TextField width = new TextField("0,000");
+  @FXML private TextField height = new TextField("0,000");
+  @FXML private TextField depth = new TextField("0,000");
+  @FXML private TextField radius = new TextField("0,000");
+
   // Инициализация разметки с контроллером
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     switch (this.state) {
       case Object:
         this.bindObjectProperties();
+        this.bindSpecificObjectProperties();
         break;
       case CameraWorld:
       default:
+        this.mesh = null;
         this.bindCameraProperties();
         this.initChangeWorldBGColor();
     }
@@ -74,6 +86,13 @@ public final class SidebarController implements Initializable {
    */
   public void setState(State state) {
     this.state = state;
+  }
+  /**
+   * Устанавливает текущий выбранный объект
+   * @param mesh - выбранный объект
+   */
+  public void setMesh(BaseMesh mesh) {
+    this.mesh = mesh;
   }
 
   /**
@@ -392,6 +411,152 @@ public final class SidebarController implements Initializable {
     this.objectColor.valueProperty().setValue(mesh.getMaterial());
     this.objectColor.valueProperty().addListener(event -> {
       mesh.setMaterial(((ObjectProperty<Color>)event).getValue());
+    });
+  }
+
+  /**
+   * Метод для связывания специфичных свойств 3D объекта.
+   * Смотрит на класс объекта и в зависимости от него назначает обработчики
+   */
+  private void bindSpecificObjectProperties() {
+    if (mesh instanceof CubeMesh) {
+      this.bindCubeProperties();
+    } else if (mesh instanceof SphereMesh) {
+      this.bindSphereProperties();
+    } else if (mesh instanceof CylinderMesh) {
+      this.bindCylinderProperties();
+    }
+  }
+
+  /**
+   * Связывает свойства куба
+   */
+  private void bindCubeProperties() {
+    this.bindCubeWidthProperties();
+    this.bindCubeHeightProperties();
+    this.bindCubeDepthProperties();
+  }
+  /**
+   * Связывает ширину куба с полем ввода
+   */
+  private void bindCubeWidthProperties() {
+    Bindings.bindBidirectional(
+      this.width.textProperty(),
+      ((CubeMesh)this.mesh).widthProperty(),
+      TextFieldConverter.buildConverter(
+        number -> number,
+        number -> number
+      )
+    );
+    this.width.textProperty().addListener((observable, oldValue, newValue) -> {
+      if (!newValue.matches("\\d*")) {
+        this.width.setText(newValue.replaceAll("[^\\d.-]", ""));
+      }
+    });
+  }
+  /**
+   * Связывает высоту куба с полем ввода
+   */
+  private void bindCubeHeightProperties() {
+    Bindings.bindBidirectional(
+      this.height.textProperty(),
+      ((CubeMesh)this.mesh).heightProperty(),
+      TextFieldConverter.buildConverter(
+        number -> number,
+        number -> number
+      )
+    );
+    this.height.textProperty().addListener((observable, oldValue, newValue) -> {
+      if (!newValue.matches("\\d*")) {
+        this.height.setText(newValue.replaceAll("[^\\d.-]", ""));
+      }
+    });
+  }
+  /**
+   * Связывает толщину куба с полем ввода
+   */
+  private void bindCubeDepthProperties() {
+    Bindings.bindBidirectional(
+      this.depth.textProperty(),
+      ((CubeMesh)this.mesh).depthProperty(),
+      TextFieldConverter.buildConverter(
+        number -> number,
+        number -> number
+      )
+    );
+    this.depth.textProperty().addListener((observable, oldValue, newValue) -> {
+      if (!newValue.matches("\\d*")) {
+        this.depth.setText(newValue.replaceAll("[^\\d.-]", ""));
+      }
+    });
+  }
+
+  /**
+   * Связывает свойства сферы
+   */
+  private void bindSphereProperties() {
+    this.bindSphereRadiusProperties();
+  }
+  /**
+   * Связывает радиус сферы с полем ввода
+   */
+  private void bindSphereRadiusProperties() {
+    Bindings.bindBidirectional(
+      this.radius.textProperty(),
+      ((SphereMesh)this.mesh).sphereRadius(),
+      TextFieldConverter.buildConverter(
+        number -> number,
+        number -> number
+      )
+    );
+    this.radius.textProperty().addListener((observable, oldValue, newValue) -> {
+      if (!newValue.matches("\\d*")) {
+        this.radius.setText(newValue.replaceAll("[^\\d.-]", ""));
+      }
+    });
+  }
+
+  /**
+   * Связывает свойства цилиндра
+   */
+  private void bindCylinderProperties() {
+    this.bindCylinderRadiusProperties();
+    this.bindCylinderHeightProperties();
+  }
+  /**
+   * Связывает радиус цилиндра с полем ввода
+   */
+  private void bindCylinderRadiusProperties() {
+    Bindings.bindBidirectional(
+      this.radius.textProperty(),
+      ((CylinderMesh)this.mesh).radiusProperty(),
+      TextFieldConverter.buildConverter(
+        number -> number,
+        number -> number
+      )
+    );
+    this.radius.textProperty().addListener((observable, oldValue, newValue) -> {
+      if (!newValue.matches("\\d*")) {
+        this.radius.setText(newValue.replaceAll("[^\\d.-]", ""));
+      }
+    });
+  }
+  /**
+   * Связывает высоту цилиндра с полем ввода
+   */
+  private void bindCylinderHeightProperties() {
+    Bindings.bindBidirectional(
+      this.height.textProperty(),
+      ((CylinderMesh)this.mesh).heightProperty(),
+      TextFieldConverter.buildConverter(
+        number -> number,
+        number -> number
+      )
+    );
+    this.height.textProperty().addListener((observable, oldValue, newValue) -> {
+      if (!newValue.matches("\\d*")) {
+        this.height.setText(newValue.replaceAll("[^\\d.-]", ""));
+      }
     });
   }
 }

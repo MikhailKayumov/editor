@@ -13,9 +13,6 @@ public final class ToolbarController {
     this.world = world;
   }
 
-  // public void startCreatingPlane(MouseEvent event) {
-  //   System.out.println("Start Creating Plane: " + event);
-  // }
   /**
    * Обработчик на нажатие кнопки для создания куба
    */
@@ -37,9 +34,6 @@ public final class ToolbarController {
     SphereMesh mesh = new SphereMesh();
     this.addNewMesh(mesh);
   }
-  // public void startCreatingPyramid(MouseEvent event) {
-  //   System.out.println("Start Creating Pyramid: " + event);
-  // }
 
   /**
    * Обработчик на нажатие кнопки для создания изображения сцены

@@ -109,7 +109,6 @@ public final class Camera3D extends Object3D {
   /**
    * Сброс камеры в исходное положение
    */
-  @Override
   public void reset() {
     this.resetTranslate();
     this.resetRotate();
@@ -141,7 +140,7 @@ public final class Camera3D extends Object3D {
    * Инициализация
    */
   private void init() {
-    this.rotate(-0, -108);
+    this.rotate(-26, -128);
     this.zoom(-500);
   }
 }

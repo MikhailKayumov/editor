@@ -302,85 +302,10 @@ public class Object3D extends Group {
     this.getChildren().addAll(nodes);
   }
   /**
-   * Удаляет узлы
-   * @param nodes - узлы
-   */
-  public void removeChildren(Node... nodes) {
-    for (Node node: nodes) this.removeChild(node);
-  }
-  /**
    * Добавляет узлы
    * @param nodes - коллекция узлов
    */
   public void addChildren(Collection nodes) {
     this.getChildren().addAll(nodes);
-  }
-
-  // public void setPivot(double x, double y, double z) {
-  //   this.p.setX(x);
-  //   this.p.setY(y);
-  //   this.p.setZ(z);
-  //   this.ip.setX(-x);
-  //   this.ip.setY(-y);
-  //   this.ip.setZ(-z);
-  // }
-  // public void addPivot(double x, double y, double z) {
-  //   this.p.setX(this.p.getX() + x);
-  //   this.p.setY(this.p.getY() + y);
-  //   this.p.setZ(this.p.getZ() + z);
-  //   this.ip.setX(this.ip.getX() - x);
-  //   this.ip.setY(this.ip.getY() - y);
-  //   this.ip.setZ(this.ip.getZ() - z);
-  // }
-
-  public void reset() {
-    // translation
-    this.t.setX(0.0);
-    this.t.setY(0.0);
-    this.t.setZ(0.0);
-
-    // pivot
-    // this.p.setX(0.0);
-    // this.p.setY(0.0);
-    // this.p.setZ(0.0);
-
-    // ?
-    // this.ip.setX(0.0);
-    // this.ip.setY(0.0);
-    // this.ip.setZ(0.0);
-
-    // scale
-    this.s.setX(1.0);
-    this.s.setY(1.0);
-    this.s.setZ(1.0);
-  }
-  public void resetWithR() {
-    this.reset();
-    this.rx.setAngle(0.0);
-    this.ry.setAngle(0.0);
-    this.rz.setAngle(0.0);
-  }
-
-  public void debug() {
-    System.out.println("t = (" +
-      t.getX() + ", " +
-      t.getY() + ", " +
-      t.getZ() + ")  " +
-      "r = (" +
-      rx.getAngle() + ", " +
-      ry.getAngle() + ", " +
-      rz.getAngle() + ")  " +
-      "s = (" +
-      s.getX() + ", " +
-      s.getY() + ", " +
-      s.getZ() + ")  "/* +
-      "p = (" +
-      p.getX() + ", " +
-      p.getY() + ", " +
-      p.getZ() + ")  " +
-      "ip = (" +
-      ip.getX() + ", " +
-      ip.getY() + ", " +
-      ip.getZ() + ")"*/);
   }
 }

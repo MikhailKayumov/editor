@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<fx:root
+    type="javafx.scene.layout.VBox"
+    xmlns:fx="http://javafx.com/fxml"
+    stylesheets="@../properties.css"
+>
+    <VBox styleClass="props-row">
+        <Label styleClass="sub-title">Cube</Label>
+        <HBox spacing="10">
+            <VBox>
+                <Label styleClass="field-title">Width</Label>
+                <TextField styleClass="field" fx:id="width"/>
+            </VBox>
+            <VBox>
+                <Label styleClass="field-title">Height</Label>
+                <TextField styleClass="field" fx:id="height"/>
+            </VBox>
+            <VBox>
+                <Label styleClass="field-title">Depth</Label>
+                <TextField styleClass="field" fx:id="depth"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</fx:root>

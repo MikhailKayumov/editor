@@ -53,15 +53,14 @@ public final class World3D extends Object3D {
    * @param node - новый объект
    */
   public void addMesh(Node node) {
-    this.meshes.getChildren().add(node);
+    this.meshes.addChild(node);
   }
   /**
    * Удаляет выбранные объект из мира
    */
   public void deleteMesh() {
-    BaseMesh existPickShape = this.pickedNode.get();
-    if (existPickShape != null) {
-      this.meshes.getChildren().remove(existPickShape);
+    if (this.isSetPickedNode()) {
+      this.meshes.removeChild(this.pickedNode.get());
       this.pickedNode.set(null);
     }
   }
@@ -85,10 +84,8 @@ public final class World3D extends Object3D {
    * @param node - выбранный объект
    */
   public void setPickedNode(BaseMesh node) {
-    BaseMesh existPickShape = this.pickedNode.get();
-    if (existPickShape != null) existPickShape.unpick();
-
-    if (node instanceof BaseMesh) {
+    if (this.isSetPickedNode()) this.getPickedMesh().unpick();
+    if (node != null) {
       node.pick();
       this.pickedNode.set(node);
     }
@@ -97,8 +94,7 @@ public final class World3D extends Object3D {
    * Отменяет выбранный объект
    */
   public void delPickedNode() {
-    BaseMesh node = this.pickedNode.get();
-    if (node != null) node.unpick();
+    if (this.isSetPickedNode()) this.getPickedMesh().unpick();
     this.pickedNode.set(null);
   }
   /**
