@@ -14,8 +14,8 @@ public class CylinderMesh extends BaseMesh {
     super(
       "Cylinder",
       CylinderMesh.count++,
-      new Cylinder(50, 100),
-      new Cylinder(50, 100)
+      new Cylinder(5, 10),
+      new Cylinder(5, 10)
     );
 
     this.init();

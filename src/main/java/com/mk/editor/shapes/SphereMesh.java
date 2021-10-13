@@ -11,7 +11,7 @@ public class SphereMesh extends BaseMesh {
    * Конструктор
    */
   public SphereMesh() {
-    super("Sphere", SphereMesh.count++, new Sphere(50), new Sphere(50));
+    super("Sphere", SphereMesh.count++, new Sphere(5), new Sphere(5));
     this.init();
   }
 

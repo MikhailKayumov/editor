@@ -133,14 +133,14 @@ public final class Camera3D extends Object3D {
    * Сброс зума камеры в исходное положение
    */
   public void resetZoom() {
-    this.ct.setZ(-500);
+    this.ct.setZ(-85);
   }
 
   /**
    * Инициализация
    */
   private void init() {
-    this.rotate(-26, -128);
-    this.zoom(-500);
+    this.rotate(-22, -128);
+    this.zoom(-85);
   }
 }

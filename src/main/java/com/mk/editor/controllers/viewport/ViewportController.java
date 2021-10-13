@@ -9,12 +9,16 @@ import javafx.scene.Node;
 import javafx.scene.input.*;
 
 public final class ViewportController {
-  // скорость по умолчанию
-  private static final double DEFAULT_SPEED = 20.0;
+  // скорость перемещения камеры
+  private static final double MOUSE_TRANSLATE_SPEED = 0.035;
+  // скорость вращения камеры
+  private static final double MOUSE_ROTATE_SPEED = 0.18;
+  // скорость зума
+  private static final double MOUSE_ZOOM_SPEED = 3.87;
   // увеличение скорости при нажатом CTRL
-  private static final double CONTROL_MULTIPLIER = 5.0;
+  private static final double CONTROL_MULTIPLIER = 3.85;
   // уменьшение скорости при нажатом ALT
-  private static final double ALT_MULTIPLIER = 0.1;
+  private static final double ALT_MULTIPLIER = 0.35;
 
   private double mousePosX; // позиция мыши по X
   private double mousePosY; // позиция мыши по Y
@@ -55,7 +59,7 @@ public final class ViewportController {
    * @param event - события поворота колеса мыши
    */
   private void onScroll(ScrollEvent event) {
-    double difference = DEFAULT_SPEED * (event.getDeltaY() > 0 ? 1 : -1);
+    double difference = MOUSE_ZOOM_SPEED * (event.getDeltaY() > 0 ? 1 : -1);
 
     if (event.isControlDown()) difference *= CONTROL_MULTIPLIER;
     else if (event.isAltDown()) difference *= ALT_MULTIPLIER;
@@ -85,7 +89,7 @@ public final class ViewportController {
     mousePosX = event.getSceneX();
     mousePosY = event.getSceneY();
 
-    double speed = 0.2;
+    double speed = event.isShiftDown() ? MOUSE_TRANSLATE_SPEED : MOUSE_ROTATE_SPEED;
     if (event.isControlDown()) speed *= CONTROL_MULTIPLIER;
     else if (event.isAltDown()) speed *= ALT_MULTIPLIER;
 

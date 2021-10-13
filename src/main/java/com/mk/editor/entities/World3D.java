@@ -22,7 +22,7 @@ public final class World3D extends Object3D {
   public World3D() {
     super();
     Grid grid = new Grid();
-    Axes axis = new Axes(1, 40);
+    Axes axis = new Axes(0.1, 10);
     this.addChildren(axis, grid, this.meshes);
   }
 

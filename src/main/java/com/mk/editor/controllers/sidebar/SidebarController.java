@@ -115,8 +115,8 @@ public final class SidebarController implements Initializable {
       this.tx.textProperty(),
       this.camera.xProperty(),
       TextFieldConverter.buildConverter(
-        number -> (double)number / 10,
-        number -> (double)number * 10
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.tx.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -133,8 +133,8 @@ public final class SidebarController implements Initializable {
       this.ty.textProperty(),
       this.camera.yProperty(),
       TextFieldConverter.buildConverter(
-        number -> (double)number / 10,
-        number -> (double)number * 10
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.ty.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -151,8 +151,8 @@ public final class SidebarController implements Initializable {
       this.tz.textProperty(),
       this.camera.zProperty(),
       TextFieldConverter.buildConverter(
-        number -> (double)number / 10,
-        number -> (double)number * 10
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.tz.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -187,8 +187,8 @@ public final class SidebarController implements Initializable {
       this.altitude.textProperty(),
       this.camera.altitudeProperty(),
       TextFieldConverter.buildConverter(
-        number -> ((double)number + 90) % 360,
-        number -> (double)number - 90
+        number -> (number + 90) % 360,
+        number -> number - 90
       )
     );
     this.altitude.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -205,8 +205,8 @@ public final class SidebarController implements Initializable {
       this.zoom.textProperty(),
       this.camera.zoomProperty(),
       TextFieldConverter.buildConverter(
-        number -> (double)number / 10 * -1,
-        number -> (double)number * 10 * -1
+        number -> number / 10 * -1,
+        number -> number * 10 * -1
       )
     );
     this.zoom.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -249,8 +249,8 @@ public final class SidebarController implements Initializable {
       this.x.textProperty(),
       this.world.getPickedMesh().xProperty(),
       TextFieldConverter.buildConverter(
-        number -> (double)number / 10,
-        number -> (double)number * 10
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.x.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -267,8 +267,8 @@ public final class SidebarController implements Initializable {
       this.y.textProperty(),
       this.world.getPickedMesh().yProperty(),
       TextFieldConverter.buildConverter(
-        number -> (double)number / 10,
-        number -> (double)number * 10
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.y.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -285,8 +285,8 @@ public final class SidebarController implements Initializable {
       this.z.textProperty(),
       this.world.getPickedMesh().zProperty(),
       TextFieldConverter.buildConverter(
-        number -> (double)number / 10,
-        number -> (double)number * 10
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.z.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -444,8 +444,8 @@ public final class SidebarController implements Initializable {
       this.width.textProperty(),
       ((CubeMesh)this.mesh).widthProperty(),
       TextFieldConverter.buildConverter(
-        number -> number,
-        number -> number
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.width.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -462,8 +462,8 @@ public final class SidebarController implements Initializable {
       this.height.textProperty(),
       ((CubeMesh)this.mesh).heightProperty(),
       TextFieldConverter.buildConverter(
-        number -> number,
-        number -> number
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.height.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -480,8 +480,8 @@ public final class SidebarController implements Initializable {
       this.depth.textProperty(),
       ((CubeMesh)this.mesh).depthProperty(),
       TextFieldConverter.buildConverter(
-        number -> number,
-        number -> number
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.depth.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -505,8 +505,8 @@ public final class SidebarController implements Initializable {
       this.radius.textProperty(),
       ((SphereMesh)this.mesh).sphereRadius(),
       TextFieldConverter.buildConverter(
-        number -> number,
-        number -> number
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.radius.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -531,8 +531,8 @@ public final class SidebarController implements Initializable {
       this.radius.textProperty(),
       ((CylinderMesh)this.mesh).radiusProperty(),
       TextFieldConverter.buildConverter(
-        number -> number,
-        number -> number
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.radius.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -549,8 +549,8 @@ public final class SidebarController implements Initializable {
       this.height.textProperty(),
       ((CylinderMesh)this.mesh).heightProperty(),
       TextFieldConverter.buildConverter(
-        number -> number,
-        number -> number
+        number -> number / 10,
+        number -> number * 10
       )
     );
     this.height.textProperty().addListener((observable, oldValue, newValue) -> {

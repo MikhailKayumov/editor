@@ -32,7 +32,7 @@ public final class Grid extends Object3D {
    * Конструктор 2
    */
   public Grid() {
-    this(100, 20);
+    this(250, 2);
   }
 
   /**
@@ -54,7 +54,7 @@ public final class Grid extends Object3D {
    * @return линия
    */
   private Box buildXLine(int pos) {
-    Box line = this.buildLine(this.lineLen, 0.5, pos, AppColor.XAxisColor);
+    Box line = this.buildLine(this.lineLen, 0.05, pos, AppColor.XAxisColor);
     line.setTranslateY(this.step * pos);
     return line;
   }
@@ -64,7 +64,7 @@ public final class Grid extends Object3D {
    * @return линия
    */
   private Box buildYLine(int pos) {
-    Box line = this.buildLine(0.5, this.lineLen, pos, AppColor.YAxisColor);
+    Box line = this.buildLine(0.05, this.lineLen, pos, AppColor.YAxisColor);
     line.setTranslateX(this.step * pos);
     return line;
   }
@@ -77,7 +77,7 @@ public final class Grid extends Object3D {
    * @return линия
    */
   private Box buildLine(double w, double h, int pos, Color c) {
-    Box line = new Box(w, h, 0.01);
+    Box line = new Box(w, h, 0.001);
     line.setMaterial(new PhongMaterial(pos == 0 ? c : AppColor.GridColor));
     return line;
   }

@@ -11,7 +11,7 @@ public class CubeMesh extends BaseMesh {
    * Конструктор
    */
   public CubeMesh() {
-    super("Cube", CubeMesh.count++, new Box(100, 100, 100), new Box(100, 100, 100));
+    super("Cube", CubeMesh.count++, new Box(10, 10, 10), new Box(10, 10, 10));
     this.init();
   }
 
