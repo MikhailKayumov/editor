@@ -17,7 +17,7 @@ final public class Window {
   public Window(Stage primaryStage) {
     this.stage = primaryStage;
 
-    // this.stage.setMaximized(true);
+    this.stage.setMaximized(true);
     this.stage.setMinWidth(this.MIN_WIDTH);
     this.stage.setMinHeight(this.MIN_HEIGHT);
 
